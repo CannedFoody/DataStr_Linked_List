@@ -6,35 +6,35 @@ public class MyNode {
 	private MyNode next_node = null;
 	
 //	Getters
-	public char getElement() {
+	public char get_element() {
 		return element;
 	}
 
-	public MyNode getPrevious_node() {
+	public MyNode get_previous_node() {
 		return previous_node;
 	}
 	
-	public MyNode getNext_node() {
+	public MyNode get_next_node() {
 		return next_node;
 	}
 	
 //	Setters
-	public void setElement(char element) {
+	public void set_element(char element) {
 		this.element = element;
 	}
 	
-	public void setPrevious_node(MyNode previous_node) {
+	public void set_previous_node(MyNode previous_node) {
 		this.previous_node = previous_node;
 	}
 
-	public void setNext_node(MyNode next_node) {
+	public void set_next_node(MyNode next_node) {
 		this.next_node = next_node;
 	}
 	
 //	Constructors
 	
 	public MyNode(char element) {
-		setElement(element);
+		set_element(element);
 	}
 	
 	public String print() {

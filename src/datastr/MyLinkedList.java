@@ -33,11 +33,37 @@ public class MyLinkedList {
 		}
 	
 		if(this.size == 0) {
-			MyNode new_node = new MyNode('a');
+			MyNode new_node = new MyNode(element);
 			this.first_node = new_node;
+			this.last_node = new_node;
+			this.size += 1;
+		} 
+		else {
+			MyNode new_node = new MyNode(element);
+			
+			new_node.set_previous_node(this.last_node);
+			this.last_node.set_next_node(new_node);
+			
 			this.last_node = new_node;
 			this.size += 1;
 		}
 	}
 	
+	public int list_size() throws Exception {
+		if (this.is_empty()) {
+			throw new Exception("Linked list object is empty...");
+		}
+		
+		int element_count = 0;
+		
+		MyNode current_node = this.first_node;
+		
+		while(!current_node.get_next_node().equals(null)) {
+			element_count += 1;
+			
+			current_node = current_node.get_next_node();
+		}
+		
+		return element_count;
+	}
 }

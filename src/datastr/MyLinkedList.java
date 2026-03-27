@@ -1,5 +1,7 @@
 package datastr;
 
+import java.util.Currency;
+
 public class MyLinkedList {
 	private MyNode first_node = null;
 	private MyNode last_node = null;
@@ -8,10 +10,19 @@ public class MyLinkedList {
 //	Getters
 
 	public int get_size() {
-		return size;
+		return size-1;
 	}
 	
 //	No need to create a constructor because the Object class has a pre-defined one for every class if the class has no defined constructor.
+	public void print() {
+		MyNode current_node = this.first_node;
+		
+		while(current_node!=null) {
+			System.out.print(current_node.print() + " ");
+			current_node = current_node.get_next_node();
+		}
+	}
+	
 	
 	public boolean is_empty() {
 		return (this.size == 0);
@@ -123,7 +134,7 @@ public class MyLinkedList {
 				MyNode after_node = null;
 				
 				while(!current_node.get_previous_node().equals(null)) {
-					if(pass_counter == index) {
+					if(pass_counter == index+1) {
 						after_node = current_node;
 						before_node = current_node.get_previous_node();
 						break;
@@ -143,4 +154,81 @@ public class MyLinkedList {
 			}
 		}
 	}
+	
+	public int index(char element) throws Exception{
+		if(this.is_empty()) {
+			throw new Exception("LinkedList is empty...");
+		}
+		
+		MyNode current_node = first_node;
+		int pass_counter = 0;
+		
+		while(!current_node.get_next_node().equals(null)) {
+			if (current_node.get_element() == element) {
+				return pass_counter;
+			}
+			current_node = current_node.get_next_node();
+			pass_counter += 1;
+		}
+		System.out.println("Cannot find the passed element...");
+		return -1;
+		
+	}
+	
+	public void remove(int index) throws Exception{
+		if(this.is_empty()) {
+			throw new Exception("The LinkedList is empty...");
+		}
+		
+		if(index < 0 || index >= this.size) {
+			throw new Exception("Passed index is out of bounds...");
+		}
+		
+		if(index == 0) {
+			MyNode new_first_node = this.first_node.get_next_node();
+			new_first_node.set_previous_node(null);
+			this.first_node = new_first_node;
+			this.size -= 1;
+		}
+		
+		if(index == this.size-1) {
+			MyNode new_last_node = this.last_node.get_previous_node();
+			new_last_node.set_next_node(null);
+			this.last_node = new_last_node;
+			this.size -= 1;
+		}
+		
+		else {
+			if(index < this.size / 2) {
+				MyNode current_node = this.first_node;
+				for(int i = 1; i < index; i++) {
+					current_node = current_node.get_next_node();
+				}
+				
+				MyNode new_previous_node = current_node;
+				MyNode new_next_node = current_node.get_next_node();
+				
+				new_previous_node.set_next_node(new_next_node);
+				new_next_node.set_previous_node(new_previous_node);
+				
+				this.size -= 1;
+			}
+			else {
+				MyNode current_node = this.last_node;
+				for(int i = this.size; i > index; i--) {
+					current_node = current_node.get_previous_node();
+				}
+				
+				MyNode new_next_node = current_node;
+				MyNode new_previous_node = current_node.get_previous_node();
+				
+				new_next_node.set_previous_node(new_previous_node);
+				new_previous_node.set_next_node(new_next_node);
+				
+				this.size -= 1;
+			}
+		}
+	}
+	
+	
 }

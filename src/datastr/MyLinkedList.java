@@ -1,6 +1,6 @@
 package datastr;
 
-public class MyLinkedList {
+public class MyLinkedList<TType> {
 	private MyNode first_node = null;
 	private MyNode last_node = null;
 	private int size = 0;
@@ -28,7 +28,7 @@ public class MyLinkedList {
 	
 	public boolean is_full(){
 		try {
-			new MyNode('a');	
+			new MyNode(new Object());	
 			return false;
 		}
 		catch (OutOfMemoryError e) {
@@ -36,17 +36,22 @@ public class MyLinkedList {
 		}
 	}
 	
-	public void add(char element) throws Exception {
+	public void add(TType element) throws Exception {
 		if (this.is_full()) {
 			throw new Exception("Cannot add new element, the LinkedList is full...");
 		}
 	
-		if(this.size == 0) {
+		if(this.is_empty()) {
 			MyNode new_node = new MyNode(element);
 			this.first_node = new_node;
 			this.last_node = new_node;
 			this.size += 1;
 		} 
+		
+		if(element == null) {
+			throw new Exception("Cannot add a null element...");
+		}
+		
 		else {
 			MyNode new_node = new MyNode(element);
 			
@@ -76,13 +81,17 @@ public class MyLinkedList {
 		return element_count;
 	}
 	
-	public void add(char element, int index) throws Exception {
+	public void add(TType element, int index) throws Exception {
 		if (this.is_full()) {
 			throw new Exception("Cannot add new element, the LinkedList is full...");
 		}
 		
 		if (index > this.size || index < 0) {
 			throw new Exception("Cannot add new element at that index, index out of bounds...");
+		}
+		
+		if(element == null) {
+			throw new Exception("Cannot add a null element...");
 		}
 		
 		MyNode new_node = new MyNode(element);
@@ -138,7 +147,11 @@ public class MyLinkedList {
 		}
 	}
 	
-	public int index(char element) throws Exception{
+	public int index(TType element) throws Exception{
+		if(element == null) {
+			throw new Exception("Cannot index a null element...");
+		}
+		
 		if(this.is_empty()) {
 			throw new Exception("LinkedList is empty...");
 		}
@@ -147,7 +160,7 @@ public class MyLinkedList {
 		int pass_counter = 0;
 		
 		while(!current_node.get_next_node().equals(null)) {
-			if (current_node.get_element() == element) {
+			if (current_node.get_element().equals(element)) {
 				return pass_counter;
 			}
 			current_node = current_node.get_next_node();
@@ -213,7 +226,7 @@ public class MyLinkedList {
 		}
 	}
 	
-	public char find(int index) throws Exception{
+	public TType find(int index) throws Exception{
 		if(this.is_empty()) {
 			throw new Exception("Cannot start search if the LinkedList is empty...");
 		}
@@ -228,7 +241,7 @@ public class MyLinkedList {
 			current_node = current_node.get_next_node();
 		}
 		
-		return current_node.get_element();
+		return (TType) current_node.get_element();
 	}
 	
 	public void trash() {

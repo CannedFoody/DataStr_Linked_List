@@ -1,7 +1,5 @@
 package datastr;
 
-import java.util.Currency;
-
 public class MyLinkedList {
 	private MyNode first_node = null;
 	private MyNode last_node = null;
@@ -103,52 +101,37 @@ public class MyLinkedList {
 		else {
 			if(index < (size / 2)) {
 				MyNode current_node = this.first_node;
-				int pass_counter = 0;
 				
-				MyNode before_node = null;
-				MyNode after_node = null;
-				
-				while(!current_node.get_next_node().equals(null)) {
-					if (pass_counter == index) {
-						before_node = current_node;
-						after_node = current_node.get_next_node();
-						break;
-					}
+				for(int i = 1; i < index; i++) {
 					current_node = current_node.get_next_node();
-					pass_counter += 1;
 				}
 				
-				before_node.set_next_node(new_node);
-				after_node.set_previous_node(new_node);
+				MyNode previous_node = current_node;
+				MyNode next_node = current_node.get_next_node();
 				
-				new_node.set_next_node(after_node);
-				new_node.set_previous_node(before_node);
+				new_node.set_previous_node(previous_node);
+				new_node.set_next_node(next_node);
+				
+				previous_node.set_next_node(new_node);
+				next_node.set_previous_node(new_node);
 				
 				this.size += 1;
 			}
 			else {
 				MyNode current_node = this.last_node;
-				int pass_counter = this.size;
 				
-				MyNode before_node = null;
-				MyNode after_node = null;
-				
-				while(!current_node.get_previous_node().equals(null)) {
-					if(pass_counter == index+1) {
-						after_node = current_node;
-						before_node = current_node.get_previous_node();
-						break;
-					}
-					
+				for(int i = this.size; i > index; i--){
 					current_node = current_node.get_previous_node();
-					pass_counter -= 1;
 				}
 				
-				before_node.set_next_node(new_node);
-				after_node.set_previous_node(new_node);
+				MyNode next_node = current_node;
+				MyNode previous_node = current_node.get_previous_node();
 				
-				new_node.set_next_node(after_node);
-				new_node.set_previous_node(before_node);
+				new_node.set_next_node(next_node);
+				new_node.set_previous_node(previous_node);
+				
+				previous_node.set_next_node(new_node);
+				next_node.set_previous_node(new_node);
 				
 				this.size += 1;
 			}
@@ -230,5 +213,30 @@ public class MyLinkedList {
 		}
 	}
 	
+	public char find(int index) throws Exception{
+		if(this.is_empty()) {
+			throw new Exception("Cannot start search if the LinkedList is empty...");
+		}
+		
+		if(index < 0 || index > this.size) {
+			throw new Exception("Passed index is out of bounds...");
+		}
+		
+		MyNode current_node = this.first_node;
+		
+		for(int i=1; i < index; i++) {
+			current_node = current_node.get_next_node();
+		}
+		
+		return current_node.get_element();
+	}
+	
+	public void trash() {
+		this.first_node = null;
+		this.last_node = null;
+		this.size = 0;
+		
+		System.gc();
+	}
 	
 }

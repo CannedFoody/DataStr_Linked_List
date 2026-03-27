@@ -1,12 +1,12 @@
 package datastr;
 
-public class MyNode {
-	private char element;
+public class MyNode<TType> {
+	private TType element;
 	private MyNode previous_node = null;
 	private MyNode next_node = null;
 	
 //	Getters
-	public char get_element() {
+	public TType get_element() {
 		return element;
 	}
 
@@ -19,8 +19,12 @@ public class MyNode {
 	}
 	
 //	Setters
-	public void set_element(char element) {
-		this.element = element;
+	public void set_element(TType element) {
+		if(element != null) {
+			this.element = element;
+		}
+		
+		this.element = (TType) new Object();
 	}
 	
 	public void set_previous_node(MyNode previous_node) {
@@ -33,7 +37,7 @@ public class MyNode {
 	
 //	Constructors
 	
-	public MyNode(char element) {
+	public MyNode(TType element) {
 		set_element(element);
 	}
 	
